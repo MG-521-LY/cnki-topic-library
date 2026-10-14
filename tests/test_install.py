@@ -19,7 +19,7 @@ SOURCE=ROOT/'skills/cnki-topic-library'
 class InstallTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory()
-        self.base=Path(self.temp.name)
+        self.base=Path(self.temp.name).resolve()
         self.dest=self.base/'custom-skill-root'
 
     def tearDown(self):
