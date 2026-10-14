@@ -53,6 +53,12 @@ DSH版本和profile不同，浏览器工具名、参数及是否启用可能不�
 
 详情：[DSH适配说明](skills/cnki-topic-library/references/deepseek-harness.md)；[浏览器流程](skills/cnki-topic-library/references/browser-workflow.md)。
 
+### 安装后没有浏览器工具或出现验证码
+
+Playwright MCP提供方不会接管已经活动的DSH会话；提供方加载后，需新建会话，或卸载并恢复原会话，再检查 `mcp__playwright-mcp__*` 工具。若仍缺失，检查当前配置和启动日志，必要时重启后核验，不能把重启当作必然修复。
+
+隔离浏览器首次知网检索可能出现真实可见的滑块验证。Skill会保存进度并暂停，已有论文条目记为 `waiting_user`，没有题录时保存检索检查点。使用 `headless: false` 的可见窗口由你手动完成验证，再通知Agent继续；它会核实拦截解除并恢复同一任务。详情和来源见DSH适配说明。
+
 ## 安装到Codex
 
 ```powershell

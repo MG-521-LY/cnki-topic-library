@@ -20,6 +20,18 @@ Skill加载不意味着具备浏览器操作。检查当前Session实际暴露�
 
 需要启用浏览器提供方时，先检查所用DSH版本及profile/preset当前配置，再参考该版本官方文档。只挂载一个浏览器提供方，不覆盖用户已有插件设置或认证配置。安装本Skill的脚本不改DSH配置，不启用浏览器后端。
 
+### 工具加载时机
+
+Playwright MCP提供方加载或重新加载后，不会接管已经活动的Session。配置加载完成后，创建新会话，或卸载并恢复原会话，再检查工具目录。工具名通常为 `mcp__playwright-mcp__<tool>`，实际名称和参数以当前会话暴露的schema为准。外部脚本通过Playwright直连成功，只证明该连接可用，不能证明当前DSH会话已经获得这些工具。
+
+新会话仍没有工具时，检查所选profile/preset、提供方加载和MCP启动日志，以及attach连接是否被其他会话占用；必要时重启DSH，再新建或恢复会话并核验。不能承诺重启必然修复依赖、配置或连接问题。工具缺失时先保存任务，不反复发起下载。
+
+### 隔离浏览器与人工验证
+
+当前官方Playwright MCP实现的launch模式使用 `--isolated`，每次新的浏览器运行状态不继承日常浏览器的登录配置；同一活动Session的轮次之间保留状态。用户2026-10-15反馈：全新配置首次检索可能遇到可见滑块，已使用过的配置能继续检索。这是该环境实测，不保证每次都会触发或已有配置永远免验证。
+
+可见“请完成安全验证”或滑块实际阻挡操作时，按 [浏览器流程](browser-workflow.md) 保存进度、暂停并交给用户操作，不自动解题或尝试绕过。人工处理需要可见窗口；launch配置 `headless: false` 时窗口可供用户操作。若当前为无头模式，说明需要可见浏览器及会话重新初始化，保留任务后再处理，不能直接假设已出现窗口。不要为减少验证码而自动修改隔离模式或导入用户凭据。
+
 机构认证依赖本机网络和当前浏览器会话。由DSH新建浏览器时，校园IP权限可能直接有效；学校代理/个人登录可能需要用户在浏览器中完成。恢复DSH会话后仍要核实浏览器身份，不能以日志中的旧身份作为当前权限证明。
 
 ## 验证和交付
@@ -34,5 +46,7 @@ Skill加载不意味着具备浏览器操作。检查当前Session实际暴露�
 - 文件系统提供方：https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/skill/skill-filesystem/README.md
 - Skill加载与用户调用：https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/skill/tool-skill/README.md
 - 浏览器提供方与会话归属：https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/browser-use.zh.md
+- Playwright MCP加载时机、工具名和窗口配置：https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/experimental/browser-use-playwright-mcp/README.zh.md
+- launch隔离模式实现：https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/experimental/browser-use-playwright-mcp/src/index.ts
 
-本适配以2026-10-14所查官方说明为依据，并用本机DSH 0.2.0-rc.2的实际技能加载模块验证目录发现和加载。浏览器工具始终现场核实。
+本适配以2026-10-14及2026-10-15所查官方说明为依据，并用本机DSH 0.2.0-rc.2的实际技能加载模块验证目录发现和加载。浏览器工具始终现场核实。
