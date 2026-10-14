@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+work/
+outputs/
+task.json
+.task.lock
+.install-manifest.json
+*.pdf
+*.caj
+*.zip
+*.log

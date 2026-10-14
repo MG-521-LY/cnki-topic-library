@@ -1,0 +1,4 @@
+interface:
+  display_name: "知网主题文献助手"
+  short_description: "描述研究主题并自由指定篇数，自动筛选热门相关文献、核验下载并补位"
+  default_prompt: "使用 $cnki-topic-library 按我的研究主题检索知网，筛选相关和热门文献，按我指定的篇数下载，未指定时默认100篇。"

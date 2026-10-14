@@ -1,0 +1,9 @@
+{
+  "dsh_version": "0.2.0-rc.2",
+  "name": "cnki-topic-library",
+  "model_invocable": true,
+  "user_invocable": true,
+  "resources_verified": 3,
+  "provider": "actual installed @deepseek-ai/dsh-skill-filesystem",
+  "status": "passed"
+}
