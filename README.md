@@ -2,29 +2,31 @@
 
 给Agent一个研究主题，让它自动检索知网、阅读摘要、筛选相关与热门文献，并使用你的机构权限下载论文。
 
-支持 **DeepSeek Harness（DSH）和Codex**。下载篇数自由指定，未指定默认100篇；支持中途调整目标、失败补位、去重、文件核验和断点续跑。Skill使用宿主Agent理解需求，无需额外的模型API密钥；本地任务工具仅依赖Python 3.10+标准库。
+面向 **Windows 上的 DeepSeek Harness（DSH）和Codex**。下载篇数自由指定，未指定默认100篇；支持中途调整目标、失败补位、去重、文件核验和断点续跑。Skill使用宿主Agent理解需求，无需额外的模型API密钥；本地任务工具仅依赖Python 3.10+标准库。安装说明与自动检查均以Windows为支持范围。
 
 ## 安装到DeepSeek Harness
 
-```text
+在Windows PowerShell中运行，需要已安装Git和Python 3.10+：
+
+```powershell
 git clone https://github.com/MG-521-LY/cnki-topic-library.git
 cd cnki-topic-library
 python scripts/install.py --client dsh
 ```
 
-如果系统命令是 `python3`，将上述 `python` 替换为 `python3`。
+如果Windows上使用Python启动器，将上述 `python` 替换为 `py -3`。也可使用DSH已提供的Python 3.10+解释器的实际路径。
 
-安装脚本会把完整目录包放到 `$DSH_HOME/skills/cnki-topic-library`，未设置 `DSH_HOME` 时使用 `~/.dsh/skills/cnki-topic-library`。不写入模型密钥，不修改DSH插件配置。
+安装脚本会把完整目录包放到 `$env:DSH_HOME\skills\cnki-topic-library`，未设置 `DSH_HOME` 时使用 `$env:USERPROFILE\.dsh\skills\cnki-topic-library`。不写入模型密钥，不修改DSH插件配置。
 
 只在某个项目使用：
 
-```text
-python scripts/install.py --client dsh --project /实际项目根目录
+```powershell
+python scripts/install.py --client dsh --project "D:\Projects\my-research"
 ```
 
 更新：
 
-```text
+```powershell
 git pull --ff-only
 python scripts/install.py --client dsh --force
 ```
@@ -53,11 +55,11 @@ DSH版本和profile不同，浏览器工具名、参数及是否启用可能不�
 
 ## 安装到Codex
 
-```text
+```powershell
 python scripts/install.py --client codex
 ```
 
-安装到 `$CODEX_HOME/skills/cnki-topic-library`，未设置时使用 `~/.codex/skills/cnki-topic-library`。通过 `$cnki-topic-library` 调用。
+安装到 `$env:CODEX_HOME\skills\cnki-topic-library`，未设置时使用 `$env:USERPROFILE\.codex\skills\cnki-topic-library`。通过 `$cnki-topic-library` 调用。
 
 也可使用Codex的skill-installer按GitHub仓库路径 `skills/cnki-topic-library` 安装。
 
@@ -91,9 +93,9 @@ python skills/cnki-topic-library/tests/test_library_jobs.py
 
 ```text
 skills/cnki-topic-library/  Skill入口、执行规则、任务脚本和测试
-scripts/install.py         DSH/Codex跨平台安装器
+scripts/install.py         DSH/Codex安装器（Windows支持）
 tests/test_install.py      安装器测试
-.github/workflows/test.yml  Windows/Linux、Python 3.10/3.12测试
+.github/workflows/test.yml  Windows、Python 3.10/3.12测试
 ```
 
 MIT许可证。仓库分发代码和Skill，不包含校园网认证信息或下载的论文全文。

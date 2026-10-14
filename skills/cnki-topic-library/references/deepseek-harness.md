@@ -2,13 +2,13 @@
 
 ## 加载与资源路径
 
-安装的是标准目录Skill，目录名 `cnki-topic-library`，入口 `SKILL.md`。默认用户安装位置为 `${DSH_HOME:-~/.dsh}/skills/cnki-topic-library`；项目安装位置为项目Git根目录下的 `.dsh/skills/cnki-topic-library`。不要把整个仓库套在该目录下，造成 `skills/cnki-topic-library/SKILL.md` 两层嵌套。
+本适配面向Windows。安装的是标准目录Skill，目录名 `cnki-topic-library`，入口 `SKILL.md`。默认用户安装位置为 `$env:DSH_HOME\skills\cnki-topic-library`，未设置该环境变量时为 `$env:USERPROFILE\.dsh\skills\cnki-topic-library`；项目安装位置为项目Git根目录下的 `.dsh/skills/cnki-topic-library`。不要把整个仓库套在该目录下，造成 `skills/cnki-topic-library/SKILL.md` 两层嵌套。
 
 用户可输入 `/cnki-topic-library`，模型可使用宿主暴露的 `skill` 工具加载同名Skill。加载后的资源基目录用于定位这里的 `scripts/library_jobs.py` 和其他references；不要使用开发者的Windows路径或Codex安装目录。未发现该Skill时，检查实际配置的用户/项目/自定义根目录及Skill注册、文件提供方、加载工具是否已启用。
 
 ## 命令执行
 
-Windows优先用宿主的 `pwsh`，POSIX用 `bash`，但以当前可见工具为准。先找Python 3.10+解释器，能用 `python` / `python3` 就直接用。若DSH提供 `workspace_dependencies` 工具，可查询捆绑的Python路径；不要猜机器安装盘符。
+优先用宿主的PowerShell工具（如 `pwsh`），以当前可见工具为准。先找Python 3.10+解释器，能用 `python` 或 `py -3` 就直接用。若DSH提供 `workspace_dependencies` 工具，可查询捆绑的Python路径；不要猜机器安装盘符。PowerShell调用含空格的解释器路径时使用调用运算符，例如 `& "C:\实际目录\python.exe" "D:\实际Skill路径\scripts\library_jobs.py" --help`。
 
 命令中的脚本与任务路径用实际绝对路径并按shell正确引用。篇数由Agent根据上下文理解再传 `--count N`。帮助脚本只用标准库，不依赖额外模型接口。
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Install the portable Skill for DeepSeek Harness or Codex; no network or config changes."""
+"""Install the Skill for DeepSeek Harness or Codex on Windows; no network or config changes."""
 import argparse
 from datetime import datetime, timezone
 import hashlib
